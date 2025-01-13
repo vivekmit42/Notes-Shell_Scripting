@@ -1,0 +1,56 @@
+----------------------------------------------------------------------------------------------------------------------
+To check which bash you are using
+
+    #echo $0
+
+-------------------------------------------------------------------------------------------------------------------------
+What is SHEBANG?
+
+    #!/bin/bash
+
+*above line is called shebang
+*when a operating system is runs a scripts, then which shell will be used to execute the scripts is defined in this shebang line.
+*It is not mandatory to specify in the script but it best practice standard.
+--------------------------------------------------------------------------------------------------------------------------
+echo "Text to print"                        --------- Printing output to terminal
+--------------------------------------------------------------------------------------------------------------------------
+How to run a script
+
+*Make sure script has executable permission (rwx)
+*Run using these commands:
+    #./script.sh
+    #./path/script.sh                                           --- this require rwx permission
+    #bash script.sh                                             --- it will directly excute script without rwx permission
+
+Ctrl+C to terminate
+Ctrl+z to stop
+
+-----------------------------------------------------------------------------------------------------------------------
+
+First Basic Script
+
+#!/bin/bash
+echo "Hello this is my first script"
+
+------------------------------------------------------------------------------------------------------------------------
+
+What are variables?
+
+It is the box which is used to assign a value like x=10, here x is a variable which is holding value 10.
+
+
+In Shell scripting, we use variable in following manner
+
+VAR_NAME=value
+VAR_NAME=$(hostname)
+
+echo $VAR_NAME
+
+CONSTANT VARIABLE
+
+Variable which you cant change after declaring
+
+readonly var_name="Hi"
+
+--------------------------------------------------------------------------------------------------------------------------
+
