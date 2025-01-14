@@ -54,3 +54,139 @@ readonly var_name="Hi"
 
 --------------------------------------------------------------------------------------------------------------------------
 
+ARRAY
+
+How to define an array?
+
+myarray=(1 2 Hello "hey Man")
+
+How to get values from an array?
+
+echo "${myarray[0]}"
+
+echo "${myarray[1]}"
+
+-------------------------------------------------------------------------------------------------------------------------
+
+ARRAY
+
+How to find no of values in an array
+
+echo " no of values, length of an array is ${#myarray[*]}"
+
+How to jump between values 
+
+myarray[*]:startingindexvalue:how many value you want
+like 
+
+myarray=(1 2 Hello "hey Man" 55 66 8888)
+
+echo "printing array myarray[*]:2:3"
+
+How to update/insert new value into array
+
+myarray+=(New best GGN)
+
+-----------------------------------------------------------------------------------------------------------------------
+
+ARRAY KEY-VALUE PAIR
+
+declare - A myarray
+myarray=([name]=Paul [age]=20)
+
+echo "${myarray[name]}"
+
+-----------------------------------------------------------------------------------------------------------------------
+
+String Operations
+
+myvar="Hey Buddy, How are you?"
+
+How to find out variable length?
+
+myvarlength=${#myvar}
+
+echo "Length of the myvariable is $myvarlength"
+
+How to convert string into UPPER CASE?
+
+echo "UPPER CASE is ${myvar^^}"
+
+How to convert String into LOWER CASE?
+
+echo "LOWER CASE is ${myvar,,}"
+
+How to do slice string?
+
+myvar="Hey Buddy, How are you?"
+
+slice=${myvar:6:11}
+
+echo "SLICING is $slice "
+
+----------------------------------------------------------------------------------------------------------------------
+USER INTERACTION
+
+Take input from user
+
+    read <var_name>
+    read -p "Your name is" namevar
+    echo "namevar"
+
+-------------------------------------------------------------------------------------------------------------------------
+
+Arithmetic
+
+two methods available:
+
+        1. using let method
+            like:
+                    a=100
+                    let b=a*100
+                    echo "$b"
+
+                    example 1:
+                    #!/bin/bash
+                        read -p "What is your name?" name
+                        read -p "what is your age?" age
+                        read -p "What is your monthly salary today?" msal
+
+                        let a=msal*40*12
+
+                        echo "Hi $name, as per your age$age, your life time earning as per your today's salary will be:$a"
+
+        2. using double bracket
+            like:
+                    ((a++))
+                    ((a=5*100))
+
+                    example 1:
+                    
+                        read -p "What is your name?" name
+                        read -p "what is your age?" age
+                        read -p "What is your monthly salary today?" msal
+
+                        echo "Hi $name, as per your age$age, your life time earning as per your today's salary will be:$(($msal*40*12))"
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+CONDITIONAL STATEMENT
+
+1. IF ELSE CONDITION:
+
+read -p " Hi what is your marks in mathematics:  " math
+
+if [[ $math -ge  33 ]]
+then
+        echo " You are Pass!"
+else
+        echo " You are Failed!!!"
+fi
+
+
+EQUAL                                   -eq  OR ==
+GREATER THAN EQUAL TO                   -ge
+LESS THAN EQUAL TO                      -le
+NOT EQUAL TO                            -ne  OR !=
+GREATER THAN                            -gt
+LESS THAN                               -lt
