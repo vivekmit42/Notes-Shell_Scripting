@@ -62,3 +62,5 @@ Steps of script:
 * compress each files
 * move the compressed files in archive folder
 * make a cron jon to run the script every day at given time.
+
+Script:
