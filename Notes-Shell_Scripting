@@ -281,3 +281,599 @@ LOOPS
                             do
                                     echo " Value of my array is ${myarray[$i]}"
                             done
+                        Example 3: Read content from file
+                                
+                                FILE=/home/vivek/all.txt
+
+                                for name in $(cat $FILE)
+                                do
+                                        echo "Name is $name"
+                                done
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+2. WHILE LOOP
+
+                                Example 1:
+                                count=0
+                                num=10
+
+                                while [[ $count -le $num ]]
+                                do
+                                        echo "Numbers are $count"
+                                        let count++
+                                done
+
+                                Example 2: Read content from txt file
+                    
+                                while read myvar
+                                do
+                                        echo "Value from file is $myvar"
+                                done < /home/vivek/all.txt
+
+                                Example 3: To read content from csv file
+
+                                        while IFS="," read id name age                          -- here IFS stands for internal field separator
+                                        do
+                                                echo "ID is $id"
+                                                echo "name is $name"
+                                                echo "age is $age"
+                                        done < /home/vivek/all.csv
+                                Example 4: To read content from csv file using while via awk command
+
+                                                cat /home/vivek/all.csv | awk 'NR!=1 {print}' | while IFS=',' read id name age
+                                                do
+                                                        echo "ID is $id"
+                                                done
+
+
+--------------------------------------------------------------------------------------------------------------------------
+3. UNTIL LOOP
+
+                                a=10
+                                until [[ $a -eq 1 ]]
+                                do
+                                        echo "$a"
+                                        let a--
+                                done
+----------------------------------------------------------------------------------------------------------------------
+4. INFINITE LOOP ( USING WHILE LOOP )
+
+                                while true
+                                do
+                                        echo "Hi Buddy"
+                                        sleep 3s
+                                done
+
+-----------------------------------------------------------------------------------------------------------------------
+5. INFINITE LOOP (USING FOR LOOP)
+
+                                for (( ;; ))
+                                do
+                                        echo "Hi Buddy"
+                                        sleep 2s
+                                done
+
+---------------------------------------------------------------------------------------------------------------------
+
+FUNCTIONS
+
+What are functions?
+*Block of code which perform same task and run when it is called.
+*can be reuse many times in our program which lessen out lines of code.
+*we can pass arguments to the method.
+
+Method 1 : 
+Declare function using 
+
+        function Calculator{
+                ....
+        }
+                        Example 1: First  method of declaring fucntion
+                        
+                                function welcomeNote {
+                                echo "----------------"
+                                echo " WELCOME "
+                                echo "----------------"
+                                }
+                                welcomeNote
+
+                                welcomeNote
+
+Method 1 : 
+Declare function using
+
+        Calculator(){
+                ...
+        }
+
+                        Example 1: Second method of declaring function
+
+                                welcomeNote(){
+                                        echo "---------------"
+                                        echo "WELCOME"
+                                        echo "---------------"
+                                }
+                                welcomeNote
+
+                                welcomeNote
+
+------------------------------------------------------------------------------------------------------------------------
+How to use arguments in functions?
+
+                        welcomeNote(){
+                                local name=$1
+                                local age=$2
+                                local company=$3
+
+                                echo " Hi, your name is $1, your age is $2, you are working in $3 company"
+
+                        }
+                        welcomeNote "Vivek Chaudhary" "31" "Infosys Ltd"
+OUTPUT --->
+ Hi, your name is Vivek Chaudhary, your age is 31, you are working in Infosys Ltd company
+
+--------------------------------------------------------------------------------------------------------------------------
+
+How to Pass arguments in scripts?
+
+                        echo "First argument is $1"
+
+                        echo " Second argument is $2"
+
+                        echo " All the arguments are: $@"
+
+                        echo " Number of arguments you have passed are: $#"
+
+-----------------------------------------------------------------------------------------------------------------------
+
+How to pass argument and use in the for loop?
+
+                        echo "First argument is $1"
+
+                        echo " Second argument is $2"
+
+                        echo " All the arguments are: $@"
+
+                        echo " Number of arguments you have passed are: $#"
+
+                        for e in $@
+                        do
+                                echo "copying file - $e"
+                        done
+
+Output--->
+localhost:/home/vivek/myscripts # ./script_function4.sh hi vivek
+
+First argument is hi
+ Second argument is vivek
+ All the arguments are: hi vivek
+ Number of arguments you have passed are: 2
+copying file - hi
+copying file - vivek
+
+-----------------------------------------------------------------------------------------------------------------------
+
+SHIFTING OF ARGUMENTS
+
+SHIFT - When we pass multiple arguments, we can shift the arguments
+
+                        Example:
+                                echo " Creating a new user"
+
+                                echo " username is $1"
+
+                                shift
+
+                                echo " Description is $@"
+
+here it will take first argument as $1 and rest it will count as second argument like
+
+OUTPUT --->
+
+localhost:/home/vivek/myscripts # ./script_function5.sh vivek this is test account
+ Creating a new user
+ username is vivek
+ Description is this is test account
+localhost:/home/vivek/myscripts #
+
+---------------------------------------------------------------------------------------------------------------------
+
+break - to stop the loop
+
+continue - to stop current interation of loop and start next iteration.
+
+                        Example: Use case for break
+                                n=6
+                                for i in 1 2 3 4 5 6  7 8 9
+                                do
+                                        #break the loop if n is found
+                                        if [[ $n -eq $i  ]]
+                                        then
+                                                echo " $n is found  "
+                                                break
+                                        fi
+                                        echo " Number is $i"
+
+                                done
+Output--->
+
+localhost:/home/vivek/myscripts # ./script_function6.sh
+ Number is 1
+ Number is 2
+ Number is 3
+ Number is 4
+ Number is 5
+ 6 is found
+
+                        Example: Use case for continue
+
+                                        for i in 1 2 3 4 5 6 7 8 9 10
+                                        do
+                                                let r=$i%2
+                                                if [[ $r -eq 0  ]]
+                                                then
+                                                        continue
+                                                fi
+                                                echo " ODD number is $i  "
+                                        done
+OUTPUT ---->
+
+localhost:/home/vivek/myscripts # ./script_function7.sh
+ ODD number is 1
+ ODD number is 3
+ ODD number is 5
+ ODD number is 7
+ ODD number is 9
+localhost:/home/vivek/myscripts #
+
+-------------------------------------------------------------------------------------------------------------------
+
+exit -  to stop script at a point
+
+                        EXAMPLE: Use case for exit
+                                
+                                if [[ $# -eq 0  ]]
+                                then
+                                        echo " you have not passed argument exiting.."
+                                        exit 1
+                                fi
+
+                                echo "First argument is $1"
+
+                                echo " Second argument is $2"
+
+                                echo " All the arguments are: $@"
+
+                                echo " Number of arguments you have passed are: $#"
+
+
+                                # Using fo loop to access the values from arguments
+
+                                for e in $@
+                                do
+                                        echo "copying file - $e"
+                                done
+
+
+OUTPUT---->
+
+localhost:/home/vivek/myscripts # ./script_function8.sh d
+First argument is d
+Second argument is
+All the arguments are: d
+Number of arguments you have passed are: 1
+copying file - d
+
+localhost:/home/vivek/myscripts #./script_function8.sh
+ you have not passed argument exiting..
+
+----------------------------------------------------------------------------------------------------------------------
+
+sleep - to create delay between two executions.
+
+
+----------------------------------------------------------------------------------------------------------------------
+
+exit status $? - gives you status of previous command if that was successful.
+
+it will give you status of command executed just before
+
+if it return 0 - success
+if it return 1 - failed
+
+                                Example:
+                                        # pwd
+                                        /home/vivek/myscripts
+                                        # echo $?
+                                        0
+                                        # ld
+                                        ld: no input files
+                                        # echo $?
+                                        1
+                                Example:
+                                        read -p "which site you want to check:  " site
+                                        ping -c 1 $site
+
+                                        if [[  $? -eq 0   ]]
+                                        then
+                                                echo "Successful connected to $site"
+                                        else
+                                                echo "Unable to connect to $site"
+                                        fi
+
+OUTPUT --->
+
+# ./script_exit.sh
+
+which site you want to check:  www.qwerttysdbhsd.com
+
+ping: www.qwerttysdbhsd.com: Name or service not known
+
+Unable to connect to www.qwerttysdbhsd.com
+
+
+# ./script_exit.sh
+
+which site you want to check:  www.google.com
+
+PING www.google.com (142.250.77.196) 56(84) bytes of data.
+64 bytes from del11s08-in-f4.1e100.net (142.250.77.196): icmp_seq=1 ttl=128 time=7.62 ms
+--- www.google.com ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 7.619/7.619/7.619/0.000 ms
+
+Successful connected to www.google.com
+---------------------------------------------------------------------------------------------------------------------
+basename - strip directory info and only give filename
+
+dirname - strip the filename and gives directory path
+
+realpath - gives you full path for a file
+
+Example:
+
+localhost:/home/vivek/myscripts # realpath all.csv
+/home/vivek/myscripts/all.csv
+localhost:/home/vivek/myscripts # basename /home/vivek/all.csv
+all.csv
+localhost:/home/vivek/myscripts # dirname /home/vivek/all.csv
+/home/vivek
+localhost:/home/vivek/myscripts # realpath all.csv
+/home/vivek/myscripts/all.csv
+localhost:/home/vivek/myscripts #
+
+------------------------------------------------------------------------------------------------------------------------
+
+It is a check which should be declared in scripts, in which files,dir is used, so that it will tell whether file, dir is available or not.
+
+Check If FILE/DIR Exists or not:
+
+if [ -d folder_name] If folder exists
+
+[ ! -d folder_name] If folder not exists
+
+if [ -f file_name] If file exists
+
+if [! -f file_name] If file not exists
+
+
+                        Example:
+                                # cat script_filecheck.sh
+                                FILEPATH1="/home/vivek/all.txt"
+                                FILEPATH2="/home/vivek/all.csv"
+
+                                if [[ -f $FILEPATH3  ]]
+                                then
+                                        echo "FILE EXISTS"
+                                else
+                                        echo " FILE NOT EXISTS"
+                                        exit 1
+                                fi
+
+OUTPUT--->
+
+# ./script_filecheck.sh
+FILE NOT EXISTS
+
+-------------------------------------------------------------------------------------------------------------------------
+BASH VARIABLES
+
+RANDOM - A random integer between 0 and 32767 is generated
+
+
+                                example:
+                                #echo $RANDOM
+                                32222
+
+                                
+                                Example: script to generate random number between 0 to 6
+
+                                NO=$(( $RANDOM % 6 + 1 ))
+                                echo " Number is $NO"
+
+
+Output --->
+
+# ./script_dice.sh
+Number is 2
+-------------------------------------------------------------------------------------------------------------------------
+
+
+UID - user ID of the user logged in.
+                                        Example:
+                                                #echo $UID
+                                                0
+
+                                        Example:
+                                                # cat script_usecheck.sh
+                                                if [[ $UID -eq 0  ]]
+                                                then
+                                                        echo "User is root"
+                                                else
+                                                        echo "User is not root"
+                                                fi
+
+OUTPUT---->
+
+# ./script_usecheck.sh
+User is root
+
+--------------------------------------------------------------------------------------------------------------------------
+Redirection in scripts
+
+>              - add entry
+>>              - append new entry at last
+
+                                Example:
+                                        # cat script_redirect.sh
+                                        #!/bin/bash
+                                        ping -c 1 www.google.com > /home/vivek/all2.txt
+
+                                        OUTPUT--->
+
+                                        # ./script_redirect.sh
+                                        # cat /home/vivek/all2.txt
+
+                                        PING www.google.com (142.250.194.36) 56(84) bytes of data.
+                                        64 bytes from del12s02-in-f4.1e100.net (142.250.194.36): icmp_seq=1 ttl=128 time=16.9 ms
+
+                                        --- www.google.com ping statistics ---
+                                        1 packets transmitted, 1 received, 0% packet loss, time 0ms
+                                        rtt min/avg/max/mdev = 16.903/16.903/16.903/0.000 ms
+------------------------------------------------------------------------------------------------------------------------------
+
+DEV/NULL
+
+What is DEV/NULL?
+In case if you dnt want to print the output of a command on terminal or write in a file
+
+we can redirect the output to /dev/null
+
+                                Example:
+                                        # cd /root//s
+                                        -bash: cd: /root//s: No such file or directory
+                                        # cd /root//s &> /dev/null
+                                        #
+
+                                Example:
+                                        # cat script_devnull.sh
+                                        #!/bin/bash
+                                        read -p "which site you want to check:  " site
+
+                                        ping -c 1 $site &> /dev/null
+
+
+                                        if [[  $? -eq 0   ]]
+                                        then
+                                                echo "Successful connected to $site"
+                                        else
+                                                echo "Unable to connect to $site"
+                                        fi
+
+OUTPUT---->
+
+# ./script_devnull.sh
+which site you want to check:  www.google.com
+Successful connected to www.google.com
+# ./script_devnull.sh
+which site you want to check:  www.googlegoogle.com
+Unable to connect to www.googlegoogle.com
+----------------------------------------------------------------------------------------------------------------------
+PRINT NAME OF THE SCRIPT
+
+echo " The name of the script is: ${0}"
+
+                                Example:
+                                        # cat script_script_name.sh
+                                        #!/bin/bash
+
+                                        echo " The name of your script is ${0}"
+
+OUTPUT---->
+
+# ./script_script_name.sh
+The name of your script is ./script_script_name.sh
+
+------------------------------------------------------------------------------------------------------------------------
+LOG MESSAGES
+
+If you want to maintain the logging for your script, you can use logger in your script.
+
+you can find the logs under
+
+                /var/logs/messages 
+
+Example:
+
+#!/bin/bash
+
+logger " this is log from ${0}"
+
+Output-->
+when you execute this script it will log a entry in /var/log/message like this
+
+2025-01-15T18:40:44.717145+05:30 localhost root:  this is log from ./script_logger.sh
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+DEBUGGING SCRIPTS
+
+If we can enable the debugging of the script using below in the script.
+
+set -x
+
+if you put set -x in any script, when you run script it will in debug mode.
+
+set -e 
+If you put set -e in your script then it will stop your script wherever you have error in your script.
+
+------------------------------------------------------------------------------------------------------------------------
+Running Script in Background
+
+when you run your script with nohup then it will run in background and you can perform any task while your script will execute.
+
+#nohup ./script.sh
+
+and if you want to see what has happened with your script then 
+check your nohup.txt file it will show output of your script.
+-------------------------------------------------------------------------------------------------------------------------
+
+AUTOMATION OUR SCRIPT
+
+At or Crontab
+
+For scheduling your script to run at particular time then we can use following methods:
+
+        1. at 
+                atq - to check scheduled jobs
+                atrm <id> - to remove the schedule
+                redirect.log file will be created after execution of script, it is used to verify that script is executed or not.
+                at command is used when you want your script to run for one time in future.
+
+                Example: schedule a job at future time
+                at 12:09 PM (press enter)
+                at>./home/vivek/myscript/script.sh
+                Ctrl+D
+                Example: schedule a job for future time and date
+                at 23:00 31 July 2025
+                at>./home/vivek/myscript/script.sh
+                ctrl+D
+                Example: remove a job
+                atq
+        4       Mon Jul 31 12:00:00 2025 a paul
+        5       Mon Jul 31 13:00:00 2025 a paul
+        6       Mon Jul 31 14:00:00 2025 a paul
+                atrm 4                          - it will remove job no 4
+
+        2. Cron
+                crontab -l      -- to check the existing jobs
+                crontab -e      -- to add new job
+                Trick for this is use crontab guru to generate your cron tab
+                Example:
+                #crontab -e
+                * * * * * cd /home/vivek/myscript/ && ./script1.sh
+Above cron job means go to above directory and run script1.sh for every minute every day every week every month 
+---------------------------------------------------------------------------------------------------------------------
