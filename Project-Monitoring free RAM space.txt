@@ -1,0 +1,64 @@
+df -H | egrep -v "Filesystem|tmps" | grep "tmpfs" | awk '{print $5}' | tr -d %  - 
+this command will remove rows which contain filesystem and tmps words, 
+then it will grep only that row which is starting tmpfs then it will print only column no 5 data for each selected row
+then it will remove % sign from selected output
+------------------------------------------------------------------------------------------------------------------------------
+free -mt | grep "Total" | awk '{print $4}' - it will print total ram info of system and it is greping row with total keyword 
+and it is selecting only column no 4 data with the help of awk
+------------------------------------------------------------------------------------------------------------------------------
+
+
+------------------------------------------------------------------------------------------------------------------------
+PROJECT 1: It will monitor your ram and check its minimum threshold, give you a alert
+
+# cat monitor_ram_free_status.sh
+#!/bin/bash
+
+FREE_SPACE=$(free -mt | grep "Total" | awk '{print $4}')
+TH=10
+
+if [[ $FREE_SPACE -lt $TH   ]]
+then
+        echo " WARNING, RAM is runnig LOW! DO SOMETHING "
+else
+        echo " RAM Space is sufficient - $FREE_SPACE MB "
+fi
+--------------------------------------------------------------------------------------------------------------------------
+PROJECT 2: It will monitor free disk space and sen you email alert
+
+#!/bin/bash
+# To send mail we need to setup postfix setup in the system
+
+FU=$(df -H | egrep -v "Filesystem|tmps" | grep "srv" | awk '{print $5}' | tr -d %)
+
+TO="vivekmit42@yahoo.com"
+
+if [[ $FU -ge 8  ]]
+then
+        echo " Warning, disk space is low" | mail -s "disk space alert" $TO
+
+else
+        echo " All good "
+fi
+
+--------------------------------------------------------------------------------------------------------------------------
+
+PROJECT 3: 
+Target : Archive older files or archive large files
+Project Requirement: 
+In the given directory, if you find files more than a given size 
+ex: 20MB or files older than given days ex:10 days
+compress those files and move in a archive folder
+
+Why are we making this script?
+Purpose of this script?
+
+Steps of script:
+
+* provide the path of the directory
+* check if the directory is present or not
+* create archive folder if not already present
+* find all the files with size more than 20MB
+* compress each files
+* move the compressed files in archive folder
+* make a cron jon to run the script every day at given time.
